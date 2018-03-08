@@ -39,7 +39,7 @@ app.get('/todos/:id', (req, res) => {
   var id = req.params.id
   //validate ID using isvalid
   if (!ObjectID.isValid(id)){
-    res.status(404).send('invalid ID input');  //respond with 404
+    return res.status(404).send('invalid ID input');  //respond with 404
   } else {
     //findById
     Todo.findById(id).then((todo) => {
