@@ -1,3 +1,4 @@
+require('./config/config.js');
 
 //local modules
 const {mongoose} = require('./db/mongoose.js');
@@ -11,7 +12,7 @@ const {ObjectID} = require('mongodb');
 const _ = require('lodash');
 
 var app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 //middleware
 app.use(bodyParser.json());
