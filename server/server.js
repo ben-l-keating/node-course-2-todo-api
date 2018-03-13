@@ -4,6 +4,7 @@ require('./config/config.js');
 const {mongoose} = require('./db/mongoose.js');
 const {Todo} = require('./models/todo.js');
 const {Users} = require('./models/user.js');
+const {authenticate} = require('./middleware/authenticate.js');
 
 //3rd party modules
 const express = require('express');
@@ -115,6 +116,11 @@ app.post('/users', (req, res) => {
   });
 });
 
+
+
+app.get('/users/me', authenticate, (req, res) => {
+  res.send(req.user);
+});
 
 app.listen(port, () => {
   console.log(`Started on port ${port}`);

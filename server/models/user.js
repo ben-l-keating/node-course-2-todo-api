@@ -51,6 +51,22 @@ UsersSchema.methods.generateAuthToken = function () {
   });
 };
 
+
+UsersSchema.statics.findByToken = function (token) {
+  var Users = this;
+  var decoded;
+
+  try {
+    decoded = jwt.verify(token, 'abc123');
+  } catch(e) {
+    return Promise.reject();
+  }
+  return Users.findOne({
+    _id: decoded._id,
+    'tokens.token': token,
+    'tokens.access': 'auth'
+  });
+};
 //create user model
 //store email - require and trim, set string and min length 1
 var Users = mongoose.model('Users', UsersSchema);
