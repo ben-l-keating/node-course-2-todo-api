@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
+
 const _ = require('lodash');
 const bcrypt = require('bcryptjs');
 
@@ -66,6 +67,29 @@ UsersSchema.statics.findByToken = function (token) {
     _id: decoded._id,
     'tokens.token': token,
     'tokens.access': 'auth'
+  });
+};
+
+UsersSchema.statics.findByCredentials = function (email, password) {
+  var Users = this;
+
+  return Users.findOne({email}).then((user) => {
+    if (!user){
+      return Promise.reject();
+    }
+    return new Promise((resolve, reject) => {
+      // use bcrypt.compare to compare password and user.password
+      bcrypt.compare(password, user.password, (err, res) => {
+        if (res) {
+          resolve(user);
+        }else {
+          reject();
+        }
+
+
+
+      });
+    })
   });
 };
 
